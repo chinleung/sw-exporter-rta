@@ -23,7 +23,7 @@ module.exports = {
             proxy: proxy
         });
 
-        ['getRtpvpReplayList'].forEach(event => {
+        ['getRankerRtpvpReplayList', 'getRtpvpReplayList'].forEach(event => {
             proxy.on(event, (request, response) => {
                 if (! pluginConfig.enabled || ! pluginConfig.key) {
                     return;
@@ -71,7 +71,8 @@ module.exports = {
         return 'post';
     },
     getRequestEndpoint (event, response) {
-        return 'https://www.rtapicks.info/api/replays/self';
+        return 'https://www.rtapicks.info/api/replays/'
+            + (event == 'getRankerRtpvpReplayList' ? 'best' : 'self');
     },
     getRequestHeaders (key) {
         return {
