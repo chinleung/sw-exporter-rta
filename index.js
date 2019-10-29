@@ -54,7 +54,7 @@ module.exports = {
                         name: this.pluginName,
                         source: 'plugin',
                         type: 'error',
-                        message: 'Unable to synchronize data with the server.',
+                        message: this.getErrorMessage(error.response.status),
                     });
 
                     proxy.log({
@@ -80,5 +80,16 @@ module.exports = {
                 Authorization: `Bearer ${key}`
             },
         };
+    },
+    getErrorMessage(status) {
+        if (status == 401) {
+            return 'The API key you\'ve provided is invalid.';
+        }
+
+        if (status == 500) {
+            return 'An unexpected error has occurred. Please try again later.';
+        }
+
+        return 'Unable to synchronize data with the server.'
     },
 };
